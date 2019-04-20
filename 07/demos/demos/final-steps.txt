@@ -1,0 +1,97 @@
+// ###########################
+// Step 1 - Add JSON path data attribute in article-feed-component.html
+//  
+//  add to <div class="article-feed"></div>
+// ###########################
+
+data-article-feed-json="${properties.articlepath}/_jcr_content.articles.json"
+
+
+
+// ###########################
+// Step 2 - Replace fullStack.init function in articleLogic.js
+// ###########################
+
+var articleFeed = $(".article-feed").data('article-feed-json');
+
+$.ajax({
+    url:articleFeed
+}).done(function(jsonResponse){
+    // Take json response and pass it to the template instead of the mock data
+    $('.js-insert-articles').append(fullStack.template({articles:jsonResponse}));
+});
+
+
+
+// ###########################
+// Step 3 - TEST IT!
+//          Run a build and test it
+// ###########################
+
+
+// ###########################
+// Step 4 - Update Markup template for better visuals
+// ###########################
+
+<!-- Add this class to first div in _.each function -->
+full-stack-article-container
+
+<!-- Replace image to use a background image with a rendention -->
+<div class="full-stack-article__img" style="background-image:url(<%= article.image %>/jcr:content/renditions/cq5dam.web.1280.1280.jpeg)"></div>
+
+<!-- update URL in A tag to use the real href -->
+href="<%= article.artPath %>.html"
+
+
+
+// ###########################
+// Step 5 - Replace all the CSS in articlefeed.less with whats below
+// ###########################
+
+@color-purple:#A94A9C;
+
+.full-stack-article-container {
+    margin-bottom:10px;
+}
+
+.full-stack-article {
+    border:1px solid #ccc;
+    padding:0;
+    margin:0 5px 10px;
+    border-radius: 0 0 0 6px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .full-stack-article__img {
+        height: 166px;
+        background-size: cover;
+        background-position: center center;
+    }
+
+    .full-stack-article__content {
+        padding:8px 10px;
+        height: 80px;
+    }
+
+    .full-stack-article__title {
+        font-size: .9em;
+        font-family: 'Roboto', sans-serif;
+        font-weight: bold;
+        margin-bottom:2px;
+    }
+
+    .full-stack-article__desc {
+        font-size:.7em;
+    }
+
+    .full-stack-article__link {
+        color:@color-purple;
+        padding-left: 10px;
+        font-size: 0.9em;
+
+        &:hover, &:link {
+            color:@color-purple;
+        }
+    }
+}
